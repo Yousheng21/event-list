@@ -1,13 +1,18 @@
 import React from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import { Navigation } from './components/navigation/Navigation';
+import {
+  SafeAreaProvider,
+} from 'react-native-safe-area-context';
 
 function App() {
   return (
-    <View style={styles.container}>
-      <StatusBar />
-      <Navigation />
-    </View>
+    <SafeAreaProvider>
+      <View style={styles.container}>
+        <StatusBar />
+        <Navigation />
+      </View>
+    </SafeAreaProvider>
   );
 }
 

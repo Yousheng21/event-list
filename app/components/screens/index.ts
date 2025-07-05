@@ -1,2 +1,2 @@
 export { MediaPlan } from "./MediaPlan"
-export { News } from "./News"
+export { News } from "./news/News"
