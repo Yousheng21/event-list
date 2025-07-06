@@ -11,10 +11,13 @@ export const fontSize = {
 };
 
 export const colors = {
-  main: 'grey',
-  secondary: 'lightgrey',
+  main: '#2c4eed',
+  secondary: 'rgba(69, 71, 190, 0.5)',
   backdrop: '#e6e8e8',
   textDark: '#424141',
   textLight: 'white',
   shadow: 'rgba(0, 0, 0)',
+  orange: '#e4be4c',
+  pink: '#eb8fcd',
+  green: '#8febbf',
 };

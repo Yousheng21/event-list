@@ -2,18 +2,20 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React, { FC } from 'react';
 import { colors, fontSize } from '../../../theme';
 import SvgHeart from '../../../assets/heart.svg';
+import { INews } from '../../../interfaces/news.interface';
+import dayjs from 'dayjs';
 
 interface IProps {
-  item: string;
+  item: INews;
   onPress: (arg?: string) => void;
 }
 
 export const NewsItem: FC<IProps> = ({ item, onPress }) => {
   return (
-    <TouchableOpacity style={styles.container} onPress={() => onPress(item)}>
+    <TouchableOpacity style={styles.container} onPress={() => onPress(item.id)}>
       <View style={styles.wrapperDay}>
         <View style={styles.day}>
-          <Text>Today</Text>
+          <Text style={{ color: colors.textLight }}>Today</Text>
         </View>
         <TouchableOpacity>
           <SvgHeart />
@@ -21,32 +23,30 @@ export const NewsItem: FC<IProps> = ({ item, onPress }) => {
       </View>
       <View>
         <Text style={{ fontSize: fontSize.small, color: 'lightgrey' }}>
-          № 435
+          № {item.number}
         </Text>
-        <Text style={{ fontSize: fontSize.large }}>
-          Cnhfcnysq cjek l;fp j k.,dsb b dscjnt
-        </Text>
+        <Text style={{ fontSize: fontSize.large }}>{item.title}</Text>
       </View>
       <View style={styles.wrapperDate}>
         <View style={[styles.dateBlock, { flex: 0.7 }]}>
-          <Text style={{ fontSize: fontSize.small, color: 'grey' }}>
-            дата мероприятия
+          <Text style={styles.dateBlockTitle}>дата мероприятия</Text>
+          <Text style={{ fontSize: fontSize.normal }}>
+            {dayjs(item.date).format('DD.MM.YYYY')}
           </Text>
-          <Text style={{ fontSize: fontSize.small }}>22 сентября 2023</Text>
         </View>
         <View style={[styles.dateBlock, { flex: 0.3 }]}>
-          <Text style={{ fontSize: fontSize.small, color: 'grey' }}>
-            начало
+          <Text style={styles.dateBlockTitle}>начало</Text>
+          <Text style={{ fontSize: fontSize.normal }}>
+            {dayjs(item.date).format('HH:mm')}
           </Text>
-          <Text style={{ fontSize: fontSize.normal }}>11:00</Text>
         </View>
       </View>
-      <Text>Donetsk</Text>
+      <Text>{item.city}</Text>
       <View style={styles.wrapperAdditional}>
-        <Text>jjj cbythutdj</Text>
+        <Text>{item.company}</Text>
         <View style={styles.additional}>
-          <Text>Byajkbybz</Text>
-          <Text>J,vty jgsnjv</Text>
+          <Text style={{ color: colors.textLight }}>Инфолиния</Text>
+          <Text style={{ color: colors.textLight }}>Обмен опытом</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     borderTopLeftRadius: 8,
     borderBottomRightRadius: 8,
-    backgroundColor: 'red',
+    backgroundColor: colors.orange,
   },
   wrapperDate: {
     flexDirection: 'row',
@@ -85,6 +85,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     gap: 3,
     backgroundColor: 'lightgrey',
+  },
+  dateBlockTitle: {
+    fontSize: fontSize.small,
+    color: 'grey',
   },
   wrapperAdditional: {
     paddingTop: 10,
@@ -98,6 +102,6 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
     paddingHorizontal: 10,
     borderRadius: '4%',
-    backgroundColor: 'pink',
+    backgroundColor: colors.pink,
   },
 });

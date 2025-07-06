@@ -4,7 +4,7 @@ import { MediaPlan, News } from '../screens';
 import { NavigationContainer } from '@react-navigation/native';
 import SvgAnalysis from '../../assets/analysis.svg';
 import SvgNews from '../../assets/news.svg';
-import { NewsHeader } from '../screens/news/NewsHeader';
+import { colors } from '../../theme';
 
 const Tab = createBottomTabNavigator();
 
@@ -14,7 +14,7 @@ export const Navigation = () => {
       <Tab.Navigator
         screenOptions={{
           tabBarStyle: {
-            backgroundColor: 'pink',
+            backgroundColor: colors.secondary,
           },
         }}
       >
@@ -29,7 +29,7 @@ export const Navigation = () => {
           name="News"
           component={News}
           options={{
-            header: () => <NewsHeader />,
+            headerShown: false,
             tabBarIcon: ({ color }) => <SvgNews fill={color} />,
           }}
         />

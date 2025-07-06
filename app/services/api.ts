@@ -15,8 +15,9 @@ const axiosBaseQuery =
       const result = await instance({
         url: baseUrl + args.url,
         method: args.method,
-        data: args.data,
+        data: args?.data,
       });
+      console.log('result', result);
 
       return { data: result.data };
     } catch (axiosError) {

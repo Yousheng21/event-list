@@ -1,4 +1,4 @@
-import { INews, INewsDetail } from '../interfaces/news.interface';
+import { INews } from '../interfaces/news.interface';
 
 import { api, StoreTagTypes } from './api';
 
@@ -10,16 +10,16 @@ export interface INewsListResponse {
 }
 
 export interface IParams {
-  current: number;
-  next: number;
-  total: number;
+  take: number;
+  skip: number;
+  search?: string;
 }
 
 export const newsApi = api.injectEndpoints({
   endpoints: build => ({
-    getNewsById: build.query<INewsDetail, { id: string }>({
+    getNewsById: build.query<INews, { id: string }>({
       query: ({ id }) => {
-        const url = `/api-gateway/v1/${id}`;
+        const url = `/news/${id}`;
 
         return {
           url,
@@ -31,45 +31,34 @@ export const newsApi = api.injectEndpoints({
       },
       keepUnusedDataFor: 60,
     }),
-    getNewsList: build.query<INewsListResponse, { params: IParams }>({
+    getNewsList: build.query<INews[], { params: IParams }>({
       query: ({ params }) => ({
-        url: `/api-gateway/v1/common-tasks/view/all-tasks`,
-        data: params,
-        method: 'POST',
+        url: `/news?${Object.entries(params)
+          .map(([key, value]) => `${key}=${value}`)
+          .join('&')}`,
+        method: 'GET',
       }),
+      serializeQueryArgs: ({ endpointName, queryArgs }) => {
+        return `${endpointName} - ${queryArgs.params}`;
+      },
+      merge: (currentCache, newItems, args) => {
+        if (args.arg.params.skip === 0) {
+          return newItems;
+        } else {
+          currentCache.push(...newItems);
+        }
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        return (
+          currentArg?.params.skip !== previousArg?.params.skip ||
+          currentArg?.params.search !== previousArg?.params.search
+        );
+      },
       providesTags: () => {
         return [{ type: StoreTagTypes.News, id: 'NEWS_LIST' }];
-      },
-    }),
-    paggingNewsList: build.mutation<INewsListResponse, { params: IParams }>({
-      query: ({ params }) => ({
-        url: `/api-gateway/v1/common-tasks/view/all-tasks`,
-        data: params,
-        method: 'POST',
-      }),
-      async onQueryStarted({ params }, { dispatch, queryFulfilled }) {
-        try {
-          const { data: response } = await queryFulfilled;
-
-          dispatch(
-            newsApi.util.updateQueryData(
-              'getNewsList',
-              { params: params },
-              (draft: INewsListResponse) => {
-                draft.page.content.push(...response.page.content);
-              },
-            ),
-          );
-        } catch (e) {
-          console.error(e);
-        }
       },
     }),
   }),
 });
 
-export const {
-  useGetNewsByIdQuery,
-  useGetNewsListQuery,
-  usePaggingNewsListMutation,
-} = newsApi;
+export const { useGetNewsByIdQuery, useGetNewsListQuery } = newsApi;

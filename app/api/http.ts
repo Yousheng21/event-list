@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig, HttpStatusCode } from 'axios';
 
 import { BASE_URL } from '../constants/settings';
+import { displayToast } from '../utils/toast';
 
 const headers: Readonly<Record<string, string | boolean>> = {};
 
@@ -28,25 +29,11 @@ export const injectToken = async (config: AxiosRequestConfig): Promise<any> => {
 };
 
 export const injectHandleErrors = async (error: any) => {
-  const { status } = error.response;
-  const { config } = error;
+  const { status, data } = error.response;
 
   switch (status) {
     case HttpStatusCode.InternalServerError: {
       break;
-    }
-    case HttpStatusCode.Unauthorized: {
-      const newAccessToken = '';
-
-      config._retry = true;
-      config.headers.Authorization = `Bearer ${newAccessToken}`;
-
-      try {
-        const res = await instance(config);
-        return res;
-      } catch (error) {
-        return Promise.reject(error);
-      }
     }
     case HttpStatusCode.TooManyRequests: {
       break;
@@ -61,6 +48,8 @@ export const injectHandleErrors = async (error: any) => {
       break;
     }
   }
+
+  displayToast('error', 'Ошибка', data.error);
 
   return Promise.reject(error);
 };
