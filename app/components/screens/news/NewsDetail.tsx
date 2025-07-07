@@ -22,26 +22,26 @@ export const NewsDetail: FC<IProps> = ({ id, onClose }) => {
       </View>
       <View style={styles.content}>
         <View style={styles.block}>
-          <Text style={styles.title}>City</Text>
-          <Text style={styles.text}>{data?.city}</Text>
-        </View>
-        <View style={styles.block}>
-          <Text style={styles.title}>Title</Text>
+          <Text style={styles.title}>Заголовок</Text>
           <Text style={styles.text}>{data?.title}</Text>
         </View>
         <View style={styles.block}>
-          <Text style={styles.title}>Description</Text>
+          <Text style={styles.title}>Описание</Text>
           <Text style={styles.text}>{data?.description}</Text>
         </View>
         <View style={styles.block}>
-          <Text style={styles.title}>Date</Text>
+          <Text style={styles.title}>Дата</Text>
           <Text style={styles.text}>
             {dayjs(data?.date).format('DD.MM.YYYY HH:mm')}
           </Text>
         </View>
         <View style={styles.block}>
-          <Text style={styles.title}>Company</Text>
+          <Text style={styles.title}>Компания</Text>
           <Text style={styles.text}>{data?.company}</Text>
+        </View>
+        <View style={styles.block}>
+          <Text style={styles.title}>Город</Text>
+          <Text style={styles.text}>{data?.city}</Text>
         </View>
       </View>
     </View>

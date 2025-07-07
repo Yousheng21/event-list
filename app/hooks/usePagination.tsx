@@ -16,13 +16,17 @@ interface IReturn {
   attrFlatList: Partial<FlatListProps<any>>;
 }
 
-export const usePagination = ({ take = 5, totalPages, current, isLoading, setCurrent }: IProps): IReturn => {
+export const usePagination = ({
+  take = 5,
+  totalPages,
+  current,
+  isLoading,
+  setCurrent,
+}: IProps): IReturn => {
   const loadMoreData = useCallback(async () => {
     if (current + take >= totalPages || isLoading) return;
-    
 
-    setCurrent(current + 5)
-
+    setCurrent(current + 5);
   }, [current, take, totalPages, isLoading, setCurrent]);
 
   const footer = useMemo(

@@ -15,6 +15,11 @@ export interface IParams {
   search?: string;
 }
 
+export interface IResponseNewsList {
+  page: INews[];
+  total: number;
+}
+
 export const newsApi = api.injectEndpoints({
   endpoints: build => ({
     getNewsById: build.query<INews, { id: string }>({
@@ -31,7 +36,7 @@ export const newsApi = api.injectEndpoints({
       },
       keepUnusedDataFor: 60,
     }),
-    getNewsList: build.query<INews[], { params: IParams }>({
+    getNewsList: build.query<IResponseNewsList, { params: IParams }>({
       query: ({ params }) => ({
         url: `/news?${Object.entries(params)
           .map(([key, value]) => `${key}=${value}`)
@@ -45,7 +50,7 @@ export const newsApi = api.injectEndpoints({
         if (args.arg.params.skip === 0) {
           return newItems;
         } else {
-          currentCache.push(...newItems);
+          currentCache.page.push(...newItems.page);
         }
       },
       forceRefetch({ currentArg, previousArg }) {

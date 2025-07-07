@@ -12,7 +12,7 @@ export const fontSize = {
 
 export const colors = {
   main: '#2c4eed',
-  secondary: 'rgba(69, 71, 190, 0.5)',
+  secondary: 'rgba(69, 71, 190, 0.9)',
   backdrop: '#e6e8e8',
   textDark: '#424141',
   textLight: 'white',

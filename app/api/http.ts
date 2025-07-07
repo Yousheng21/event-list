@@ -12,16 +12,12 @@ export const instance = axios.create({
 
 export const injectToken = async (config: AxiosRequestConfig): Promise<any> => {
   try {
-    const token = 'token';
-
     if (!config.headers) {
       throw new Error(
         'method injectToken: config.headers имеет значение undefined',
       );
     }
-    if (token !== null) {
-      config.headers.Authorization = '';
-    }
+
     return config;
   } catch (error: any) {
     throw new Error(error);

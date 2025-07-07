@@ -15,7 +15,10 @@ export const Navigation = () => {
         screenOptions={{
           tabBarStyle: {
             backgroundColor: colors.secondary,
+            borderTopLeftRadius: 15,
+            borderTopRightRadius: 15
           },
+          tabBarHideOnKeyboard: true
         }}
       >
         <Tab.Screen

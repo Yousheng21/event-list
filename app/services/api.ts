@@ -17,7 +17,6 @@ const axiosBaseQuery =
         method: args.method,
         data: args?.data,
       });
-      console.log('result', result);
 
       return { data: result.data };
     } catch (axiosError) {

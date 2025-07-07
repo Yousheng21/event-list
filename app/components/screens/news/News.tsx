@@ -9,6 +9,7 @@ import { NewsHeader } from './NewsHeader';
 import { api, StoreTagTypes } from '../../../services/api';
 import { LoaderRenderWithCondition } from '../../hoc/LoaderRenderWithCondition';
 import { NotFound } from './NotFound';
+import { persistor } from '../../../store/store';
 
 export const News = () => {
   const [id, setId] = useState<string | undefined>(undefined);
@@ -20,7 +21,7 @@ export const News = () => {
   });
 
   const { attrFlatList } = usePagination({
-    totalPages: 10,
+    totalPages: data?.total ?? 20,
     search: params.search,
     setCurrent: arg => setParams({ ...params, skip: arg }),
     isLoading: isFetching,
@@ -43,6 +44,7 @@ export const News = () => {
 
     api.util.invalidateTags([StoreTagTypes.News]);
     setParams({ ...params, skip: 0 });
+    persistor.purge();
 
     setIsRefreshing(false);
   };
@@ -54,7 +56,7 @@ export const News = () => {
         <LoaderRenderWithCondition condition={!isLoading}>
           <FlatList
             contentContainerStyle={styles.list}
-            data={data}
+            data={data?.page}
             renderItem={({ item }) => (
               <NewsItem
                 key={item.id}

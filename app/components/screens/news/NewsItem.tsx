@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { colors, fontSize } from '../../../theme';
 import SvgHeart from '../../../assets/heart.svg';
 import { INews } from '../../../interfaces/news.interface';
@@ -11,14 +11,16 @@ interface IProps {
 }
 
 export const NewsItem: FC<IProps> = ({ item, onPress }) => {
+  const [isChecked, setIsChecked] = useState(false)
+  
   return (
     <TouchableOpacity style={styles.container} onPress={() => onPress(item.id)}>
       <View style={styles.wrapperDay}>
         <View style={styles.day}>
           <Text style={{ color: colors.textLight }}>Today</Text>
         </View>
-        <TouchableOpacity>
-          <SvgHeart />
+        <TouchableOpacity onPress={() => setIsChecked((prev) => !prev)}>
+          <SvgHeart fill={isChecked ? colors.pink : colors.textLight} /> 
         </TouchableOpacity>
       </View>
       <View>
